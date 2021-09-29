@@ -5,7 +5,6 @@ const about = () => {
   return (
     <Layout>
       <h1>ABOUT</h1>
-      <Link href="/">Home</Link>
     </Layout>
   );
 };
