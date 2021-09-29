@@ -1,7 +1,13 @@
-import React from "react";
+import { useRouter } from "next/router";
+import Layout from "../../components/Layout";
 
-const EventPage = (props) => {
-  return <h1>This is event page</h1>;
+const EventPage = () => {
+  const router = useRouter();
+  return (
+    <Layout>
+      <h1>{router.query.slug}</h1>
+    </Layout>
+  );
 };
 
 export default EventPage;
