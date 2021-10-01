@@ -22,7 +22,6 @@ export default function SearchPage({ events }) {
 }
 
 export async function getServerSideProps({ query: { term } }) {
-  console.log(term);
   const query = qs.stringify({
     _where: {
       _or: [
@@ -36,8 +35,6 @@ export async function getServerSideProps({ query: { term } }) {
 
   const res = await fetch(`${API_URL}/events?${query}`);
   const events = await res.json();
-
-  console.log(events);
 
   return { props: { events } };
 }
