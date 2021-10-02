@@ -33,8 +33,6 @@ export async function getServerSideProps({ query: { term } }) {
     },
   });
 
-  console.log(query);
-
   const res = await fetch(`${API_URL}/events?${query}`);
   const events = await res.json();
 

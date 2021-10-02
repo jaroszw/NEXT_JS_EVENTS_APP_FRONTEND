@@ -1,14 +1,19 @@
 import Layout from '@/components/Layout';
+import { FaImage } from 'react-icons/fa';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from '@/styles/Form.module.css';
+
+import Modal from '@/components/Modal';
 
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { API_URL } from '@/config/index';
+import { FaImages } from 'react-icons/fa';
 
 export default function EditEventPage({ evt }) {
   const [values, setValues] = useState({
@@ -20,6 +25,12 @@ export default function EditEventPage({ evt }) {
     time: `${evt.time}`,
     description: `${evt.description}`,
   });
+
+  const [imagePreview, setImagePreview] = useState(
+    evt.image ? evt.image.formats.thumbnail.url : null
+  );
+
+  const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
 
@@ -110,7 +121,7 @@ export default function EditEventPage({ evt }) {
               type="date"
               name="date"
               id="date"
-              value={moment(values.date).format('yyyy-MM-DD')}
+              value={moment(values.date).format('yyyy.MM.DD')}
               onChange={handleInputChange}
             />
           </div>
@@ -137,6 +148,23 @@ export default function EditEventPage({ evt }) {
         </div>
         <input type="submit" value="Edit Event" className="btn" />
       </form>
+      <h2>Event Image</h2>
+      {imagePreview ? (
+        <Image src={imagePreview} height={100} width={170} />
+      ) : (
+        <div>
+          <p>No image uploaded</p>
+        </div>
+      )}
+      <div>
+        <button className="btn-secondary" onClick={() => setShowModal(true)}>
+          <FaImage />
+          Set image
+        </button>
+      </div>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        <h1>IMAGE UPLOAD</h1>
+      </Modal>
     </Layout>
   );
 }
