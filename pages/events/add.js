@@ -1,25 +1,52 @@
-import Layout from "@/components/Layout";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import styles from "@/styles/Form.module.css";
+import Layout from '@/components/Layout';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import styles from '@/styles/Form.module.css';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { API_URL } from '@/config/index';
 
 const add = () => {
   const [values, setValues] = useState({
-    name: "",
-    performers: "",
-    venue: "",
-    address: "",
-    date: "",
-    time: "",
-    description: "",
+    name: '',
+    performers: '',
+    venue: '',
+    address: '',
+    date: '',
+    time: '',
+    description: '',
   });
 
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting:", values);
+
+    const hasEmptyFields = Object.values(values).some(
+      (element) => element === ''
+    );
+
+    if (hasEmptyFields) {
+      toast.error('Please fill all empty fields');
+    }
+
+    const res = await fetch(`${API_URL}/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+
+    if (!res.ok) {
+      toast.error('Sth is wrong!');
+    } else {
+      const evt = await res.json();
+      router.push(`/events/${evt.slug}`);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -27,9 +54,12 @@ const add = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const notify = () => toast('Wow so easy!');
+
   return (
     <Layout title="Add New Event">
       <Link href="/events">Go Back</Link>
+      <ToastContainer autoClose={1500} />
       <h1>Add event</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
