@@ -7,6 +7,7 @@ import Image from 'next/image';
 import styles from '@/styles/Form.module.css';
 
 import Modal from '@/components/Modal';
+import ImageUpload from '@/components/ImageUpload';
 
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
@@ -61,8 +62,18 @@ export default function EditEventPage({ evt }) {
     }
   };
 
+  const imageUploaded = async () => {
+    const res = await fetch(`${API_URL}/events/${evt.id}`);
+    const data = await res.json();
+    setImagePreview(data.image.formats.thumbnail.url);
+    setShowModal(false);
+
+    console.log(res);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setValues({ ...values, [name]: value });
   };
 
@@ -121,7 +132,7 @@ export default function EditEventPage({ evt }) {
               type="date"
               name="date"
               id="date"
-              value={moment(values.date).format('yyyy.MM.DD')}
+              value={moment(values.date).format('yyyy-MM-DD')}
               onChange={handleInputChange}
             />
           </div>
@@ -163,7 +174,7 @@ export default function EditEventPage({ evt }) {
         </button>
       </div>
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <h1>IMAGE UPLOAD</h1>
+        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   );
