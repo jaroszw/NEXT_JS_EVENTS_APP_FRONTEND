@@ -7,11 +7,12 @@ import styles from '@/styles/AuthForm.module.css';
 import { FaUser } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import router from 'next/router';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { error, login } = useContext(AuthContext);
+  const { user, error, login } = useContext(AuthContext);
 
   useEffect(() => error && toast.error(error), [error]);
 

@@ -16,13 +16,15 @@ export default function RegisterPage() {
 
   const { error, register } = useContext(AuthContext);
 
+  useEffect(() => toast.error(error));
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== passwordConfirm) {
       toast.error('Passwprd do not much ');
     }
-    register({ email, password, username, passwordConfirm });
+    register({ email, password, username });
   };
 
   return (
@@ -31,7 +33,7 @@ export default function RegisterPage() {
         <h1>
           <FaUser /> Register
         </h1>
-        <ToastContainer />
+        <ToastContainer autoClose={1500} />
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">User Name</label>

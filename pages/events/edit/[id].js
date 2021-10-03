@@ -67,8 +67,6 @@ export default function EditEventPage({ evt }) {
     const data = await res.json();
     setImagePreview(data.image.formats.thumbnail.url);
     setShowModal(false);
-
-    console.log(res);
   };
 
   const handleInputChange = (e) => {
@@ -183,8 +181,6 @@ export default function EditEventPage({ evt }) {
 export async function getServerSideProps({ params: { id }, req }) {
   const respons = await fetch(`${API_URL}/events/${id}`);
   const evt = await respons.json();
-
-  console.log(req.headers.cookie);
 
   return {
     props: { evt },

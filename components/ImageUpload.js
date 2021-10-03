@@ -20,7 +20,6 @@ export default function ImageUpload({ evtId, imageUploaded }) {
     });
 
     if (res.ok) {
-      console.log(res);
       imageUploaded();
     } else {
     }

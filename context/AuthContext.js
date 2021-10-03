@@ -16,7 +16,23 @@ export const AuthProvider = ({ children }) => {
 
   // Register User
   const register = async (user) => {
-    console.log(user);
+    const res = await fetch(`${NEXT_URL}/api/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setUser(data.user);
+      router.push('/account/dashboard');
+    } else {
+      setError(data.message);
+      setError(null);
+    }
   };
   // Login user
   const login = async ({ email: identifier, password }) => {
@@ -34,7 +50,6 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json();
 
     if (res.ok) {
-      console.log(data.user);
       setUser(data.user);
       router.push('/account/dashboard');
     } else {

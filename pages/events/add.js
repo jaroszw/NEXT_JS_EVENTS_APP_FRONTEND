@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { API_URL } from '@/config/index';
 
-const add = () => {
+const Add = () => {
   const [values, setValues] = useState({
     name: '',
     performers: '',
@@ -140,4 +140,4 @@ const add = () => {
   );
 };
 
-export default add;
+export default Add;
