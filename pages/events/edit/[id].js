@@ -180,9 +180,11 @@ export default function EditEventPage({ evt }) {
   );
 }
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id }, req }) {
   const respons = await fetch(`${API_URL}/events/${id}`);
   const evt = await respons.json();
+
+  console.log(req.headers.cookie);
 
   return {
     props: { evt },
