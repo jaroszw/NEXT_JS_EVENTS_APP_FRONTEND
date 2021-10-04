@@ -1,4 +1,4 @@
-import styles from "@/styles/search.module.css";
+import styles from "@/styles/Search.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
