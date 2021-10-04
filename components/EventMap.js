@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import reactMapGl, { Marker } from "react-map-gl";
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import reactMapGl, { Marker } from 'react-map-gl';
 
-import "mapbox-gl/dist/mapbox-gl.css";
-import Geocode from "react-geocode";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Geocode from 'react-geocode';
 
 export default function EventMap({ evt }) {
   const [lat, setLat] = useState(null);
@@ -12,8 +12,8 @@ export default function EventMap({ evt }) {
   const [viewport, setViewport] = useState({
     latitude: 21.999121,
     longitude: 50.041187,
-    width: "100%",
-    height: "500px",
+    width: '100%',
+    height: '500px',
     zoom: 12,
   });
 
@@ -27,7 +27,7 @@ export default function EventMap({ evt }) {
         setLoading(false);
       },
       (error) => {
-        console.error("ERROR CIULU", error);
+        console.error('ERROR CIULU', error);
       }
     );
   }, [evt.address, viewport]);
@@ -44,7 +44,7 @@ export default function EventMap({ evt }) {
       onViewPortChange={(vp) => setViewport(vp)}
     >
       <Marker key={evt.id} lattitude={lat} longitude={lng}>
-        <Image src="/images/pin.svg" width={30} height={30} />
+        <Image src="/images/pin.svg" width={30} height={30} alt="" />
       </Marker>
     </reactMapGl>
   );

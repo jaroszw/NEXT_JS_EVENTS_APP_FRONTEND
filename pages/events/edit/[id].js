@@ -1,21 +1,21 @@
-import Layout from "@/components/Layout";
-import { FaImage } from "react-icons/fa";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Image from "next/image";
-import styles from "@/styles/Form.module.css";
+import Layout from '@/components/Layout';
+import { FaImage } from 'react-icons/fa';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from '@/styles/Form.module.css';
 
-import Modal from "@/components/Modal";
-import ImageUpload from "@/components/ImageUpload";
+import Modal from '@/components/Modal';
+import ImageUpload from '@/components/ImageUpload';
 
-import moment from "moment";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { API_URL } from "@/config/index";
-import { FaImages } from "react-icons/fa";
-import { parseCookies } from "@/helpers/index";
+import { API_URL } from '@/config/index';
+import { FaImages } from 'react-icons/fa';
+import { parseCookies } from '@/helpers/index';
 
 export default function EditEventPage({ evt, token }) {
   const [values, setValues] = useState({
@@ -40,27 +40,27 @@ export default function EditEventPage({ evt, token }) {
     e.preventDefault();
 
     const hasEmptyFields = Object.values(values).some(
-      (element) => element === ""
+      (element) => element === ''
     );
 
     if (hasEmptyFields) {
-      toast.error("Please fill all empty fields");
+      toast.error('Please fill all empty fields');
     }
 
     const res = await fetch(`${API_URL}/events/${evt.id}`, {
-      method: "PUT",
+      method: 'PUT',
       body: JSON.stringify(values),
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
+        'Content-Type': 'application/json; charset=UTF-8',
         Authorization: `Bearer ${token}`,
       },
     });
 
     if (!res.ok) {
       if (res.status === 403 || res.status === 401) {
-        toast.error("Anauthorised");
+        toast.error('Anauthorised');
       }
-      toast.error("Sth is wrong!");
+      toast.error('Sth is wrong!');
       console.log(res);
     } else {
       const evt = await res.json();
@@ -81,7 +81,7 @@ export default function EditEventPage({ evt, token }) {
     setValues({ ...values, [name]: value });
   };
 
-  const notify = () => toast("Wow so easy!");
+  const notify = () => toast('Wow so easy!');
 
   return (
     <Layout title="Add New Event">
@@ -136,7 +136,7 @@ export default function EditEventPage({ evt, token }) {
               type="date"
               name="date"
               id="date"
-              value={moment(values.date).format("yyyy-MM-DD")}
+              value={moment(values.date).format('yyyy-MM-DD')}
               onChange={handleInputChange}
             />
           </div>
@@ -165,7 +165,7 @@ export default function EditEventPage({ evt, token }) {
       </form>
       <h2>Event Image</h2>
       {imagePreview ? (
-        <Image src={imagePreview} height={100} width={170} />
+        <Image src={imagePreview} height={100} width={170} alt="" />
       ) : (
         <div>
           <p>No image uploaded</p>
