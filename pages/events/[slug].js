@@ -1,37 +1,39 @@
-import { FaIgloo, FaPencilAlt, FaTimes } from 'react-icons/fa';
+import { FaIgloo, FaPencilAlt, FaTimes } from "react-icons/fa";
 
-import Layout from '@/components/Layout';
-import { API_URL } from '@/config/index';
-import Image from 'next/image';
-import Link from 'next/link';
+import Layout from "@/components/Layout";
+import { API_URL } from "@/config/index";
+import Image from "next/image";
+import Link from "next/link";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import styles from '@/styles/Event.module.css';
-import { useRouter } from 'next/router';
+import styles from "@/styles/Event.module.css";
+import { useRouter } from "next/router";
 
 export default function EventPage({ evt }) {
   const router = useRouter();
-  const deleteEvent = async () => {
-    if (confirm('Are you sure?')) {
-      const res = await fetch(`${API_URL}/events/${evt.id}`, {
-        method: 'DELETE',
-      });
 
-      const data = await await res.json();
-      if (!res.ok) {
-        toast.error('Something went wrong');
-      } else {
-        router.push(`/events`);
-      }
-    }
-  };
+  // const deleteEvent = async () => {
+  //   if (confirm("Are you sure?")) {
+  //     const res = await fetch(`${API_URL}/events/${evt.id}`, {
+  //       method: "DELETE",
+  //     });
+
+  //     const data = await await res.json();
+  //     if (!res.ok) {
+  //       toast.error("Something went wrong");
+  //     } else {
+  //       router.push(`/events`);
+  //     }
+  //   }
+  // };
 
   return (
     <Layout>
       <div className={styles.event}>
-        <div className={styles.control}>
+        {/*
+      <div className={styles.control}>
           <Link href={`edit/${evt.id}`}>
             <a>
               <FaPencilAlt /> Edit Event
@@ -42,8 +44,9 @@ export default function EventPage({ evt }) {
             Delete Event
           </a>
         </div>
+        */}
         <span>
-          {new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}
+          {new Date(evt.date).toLocaleDateString("en-US")} at {evt.time}
         </span>
 
         <h1>{evt.name}</h1>
@@ -65,7 +68,7 @@ export default function EventPage({ evt }) {
         <p>{evt.address}</p>
 
         <Link href="/events">
-          <a className={styles.back}>{'<'} Go Back</a>
+          <a className={styles.back}>{"<"} Go Back</a>
         </Link>
       </div>
     </Layout>

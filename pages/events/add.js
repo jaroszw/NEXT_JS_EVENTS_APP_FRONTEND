@@ -1,23 +1,24 @@
-import Layout from '@/components/Layout';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import styles from '@/styles/Form.module.css';
+import Layout from "@/components/Layout";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import styles from "@/styles/Form.module.css";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { API_URL } from '@/config/index';
+import { API_URL } from "@/config/index";
+import { parseCookies } from "@/helpers/index";
 
-const Add = () => {
+const Add = ({ token }) => {
   const [values, setValues] = useState({
-    name: '',
-    performers: '',
-    venue: '',
-    address: '',
-    date: '',
-    time: '',
-    description: '',
+    name: "",
+    performers: "",
+    venue: "",
+    address: "",
+    date: "",
+    time: "",
+    description: "",
   });
 
   const router = useRouter();
@@ -26,23 +27,28 @@ const Add = () => {
     e.preventDefault();
 
     const hasEmptyFields = Object.values(values).some(
-      (element) => element === ''
+      (element) => element === ""
     );
 
     if (hasEmptyFields) {
-      toast.error('Please fill all empty fields');
+      toast.error("Please fill all empty fields");
     }
 
     const res = await fetch(`${API_URL}/events`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     });
 
     if (!res.ok) {
-      toast.error('Sth is wrong!');
+      if (res.status === 403 || res.status === 401) {
+        toast.error("No token included");
+        return;
+      }
+      toast.error("Sth is wrong!");
     } else {
       const evt = await res.json();
       router.push(`/events/${evt.slug}`);
@@ -54,7 +60,7 @@ const Add = () => {
     setValues({ ...values, [name]: value });
   };
 
-  const notify = () => toast('Wow so easy!');
+  const notify = () => toast("Wow so easy!");
 
   return (
     <Layout title="Add New Event">
@@ -139,5 +145,13 @@ const Add = () => {
     </Layout>
   );
 };
+
+export function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+
+  return {
+    props: { token },
+  };
+}
 
 export default Add;
